@@ -1,5 +1,8 @@
 package com.backend.controller;
 
+import com.backend.service.EmailService;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
@@ -11,6 +14,9 @@ import java.util.Random;
 @CrossOrigin("*")
 
 public class OtpController {
+
+    @Autowired
+    private EmailService emailService;
 
     private Map<String, String> otpStore =
             new HashMap<>();
@@ -29,12 +35,25 @@ public class OtpController {
 
         otpStore.put(email, otp);
 
-        // PRINT OTP IN LOGS
+        try {
+
+            emailService.sendOtpEmail(
+                    email,
+                    otp
+            );
+
+        } catch (Exception e) {
+
+            e.printStackTrace();
+
+            return "Failed to send OTP";
+        }
+
         System.out.println(
                 "OTP : " + otp
         );
 
-        return otp;
+        return "OTP Sent Successfully";
     }
 
     // VERIFY OTP
