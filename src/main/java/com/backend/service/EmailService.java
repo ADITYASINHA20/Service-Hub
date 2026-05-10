@@ -24,9 +24,7 @@ public class EmailService {
 
         message.setTo(toEmail);
 
-        message.setFrom(
-            "sinhamanisha783@gmail.com"
-        );
+        message.setFrom("adityarajkyp11012006@gmail.com");
 
         message.setSubject(
                 "OTP Verification"
