@@ -19,22 +19,39 @@ public class EmailService {
             String otp
     ) {
 
-        SimpleMailMessage message =
-                new SimpleMailMessage();
+        try {
 
-        message.setTo(toEmail);
+            SimpleMailMessage message =
+                    new SimpleMailMessage();
 
-        message.setFrom("adityarajkyp11012006@gmail.com");
+            message.setTo(toEmail);
 
-        message.setSubject(
-                "OTP Verification"
-        );
+            message.setFrom(
+                    "adityarajkyp11012006@gmail.com"
+            );
 
-        message.setText(
-                "Your OTP is: " + otp
-        );
+            message.setSubject(
+                    "OTP Verification"
+            );
 
-        mailSender.send(message);
+            message.setText(
+                    "Your OTP is: " + otp
+            );
+
+            mailSender.send(message);
+
+            System.out.println(
+                    "MAIL SENT SUCCESSFULLY"
+            );
+
+        } catch (Exception e) {
+
+            System.out.println(
+                    "MAIL ERROR"
+            );
+
+            e.printStackTrace();
+        }
 
     }
 }
