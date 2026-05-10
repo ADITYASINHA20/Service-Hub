@@ -1,7 +1,5 @@
 package com.backend.controller;
 
-import com.backend.dto.OtpRequest;
-
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
@@ -20,31 +18,23 @@ public class OtpController {
     // SEND OTP
     @PostMapping("/send")
     public String sendOtp(
-
-            @RequestBody
-            OtpRequest request
-
+            @RequestParam String email
     ) {
 
         String otp =
                 String.valueOf(
-
                         100000 +
                         new Random().nextInt(900000)
-
                 );
 
-        otpStore.put(
-                request.getEmail(),
-                otp
-        );
+        otpStore.put(email, otp);
 
-        // OTP PRINT IN CONSOLE
+        // PRINT OTP IN LOGS
         System.out.println(
                 "OTP : " + otp
         );
 
-        return "OTP Sent Successfully";
+        return otp;
     }
 
     // VERIFY OTP
