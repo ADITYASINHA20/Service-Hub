@@ -3,6 +3,9 @@ package com.backend.controller;
 import com.backend.service.EmailService;
 
 import org.springframework.beans.factory.annotation.Autowired;
+
+import org.springframework.http.ResponseEntity;
+
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
@@ -23,7 +26,7 @@ public class OtpController {
 
     // SEND OTP
     @PostMapping("/send")
-    public String sendOtp(
+    public ResponseEntity<?> sendOtp(
             @RequestParam String email
     ) {
 
@@ -35,25 +38,31 @@ public class OtpController {
 
         otpStore.put(email, otp);
 
-        try {
-
-            emailService.sendOtpEmail(
-                    email,
-                    otp
-            );
-
-        } catch (Exception e) {
-
-            e.printStackTrace();
-
-            return "Failed to send OTP";
-        }
-
         System.out.println(
                 "OTP : " + otp
         );
 
-        return "OTP Sent Successfully";
+        // SEND MAIL IN BACKGROUND
+        new Thread(() -> {
+
+            try {
+
+                emailService.sendOtpEmail(
+                        email,
+                        otp
+                );
+
+            } catch (Exception e) {
+
+                e.printStackTrace();
+
+            }
+
+        }).start();
+
+        return ResponseEntity.ok(
+                "OTP Sent Successfully"
+        );
     }
 
     // VERIFY OTP
