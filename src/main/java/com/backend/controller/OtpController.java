@@ -2,10 +2,6 @@ package com.backend.controller;
 
 import com.backend.dto.OtpRequest;
 
-import com.backend.service.EmailService;
-
-import org.springframework.beans.factory.annotation.Autowired;
-
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
@@ -13,22 +9,16 @@ import java.util.Map;
 import java.util.Random;
 
 @RestController
-
 @RequestMapping("/otp")
-
 @CrossOrigin("*")
 
 public class OtpController {
-
-    @Autowired
-    private EmailService emailService;
 
     private Map<String, String> otpStore =
             new HashMap<>();
 
     // SEND OTP
     @PostMapping("/send")
-
     public String sendOtp(
 
             @RequestBody
@@ -49,11 +39,7 @@ public class OtpController {
                 otp
         );
 
-        emailService.sendOtpEmail(
-                request.getEmail(),
-                otp
-        );
-
+        // OTP PRINT IN CONSOLE
         System.out.println(
                 "OTP : " + otp
         );
@@ -63,7 +49,6 @@ public class OtpController {
 
     // VERIFY OTP
     @PostMapping("/verify")
-
     public String verifyOtp(
 
             @RequestParam String email,
